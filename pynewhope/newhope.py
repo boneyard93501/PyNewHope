@@ -1,5 +1,5 @@
 from pynewhope import poly, params
-import os, hashlib, logging
+import os, hashlib
 
 # keygen() is a server-side function that generates the private key and returns
 # a message in the form of a tuple. This message should be encoded using JSON or
@@ -44,24 +44,22 @@ def sharedB(receivedMsg):
 def gen_a(seed):
     hashing_algorithm = hashlib.shake_128()
     hashing_algorithm.update(seed)
-    # 2200 bytes from SHAKE-128 function is enough data to get 1024 coefficients
-    # smaller than 5q, from Alkim, Ducas, Pöppelmann, Schwabe section 7:
-    shake_output = hashing_algorithm.digest(2200)
+    # 3000 bytes from SHAKE-128 function should be enough data to get
+    # N (1024) coefficients smaller than 5*Q (5*Q = 5 * 12289 = 61445):
+    shake_output = hashing_algorithm.digest(3000)
     output = []
     j = 0
-    for i in range(0,params.N):
+    for i in range(0, params.N):
         coefficient = 5 * params.Q
-        # Reject coefficients that are greater than or equal to 5q:
+        # Reject coefficients that are greater than or equal to 5*Q:
         while coefficient >= 5 * params.Q:
             coefficient = int.from_bytes(
                 shake_output[j * 2 : j * 2 + 2], byteorder = 'little')
-            logging.debug('j=' + str(j))
             j += 1
             if j * 2 >= len(shake_output):
                 print('Error: Not enough data from SHAKE-128')
                 exit(1)
         output.append(coefficient)
-        logging.debug('chose ' + str(coefficient))
     return output
 
 # sharedA() is a server-side function that takes the (decoded) message received

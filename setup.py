@@ -11,9 +11,9 @@ def read_(file_name):
 
 setup(
     name="PyNewHope",
-    version="0.1",
+    version="0.3",
     packages=["pynewhope"],
-    author="Scott Wyman Neagle",
+    author="Scott Wyman Neagle, Svetlin Nakov",
     description=(
         "An experimental implementation of the NewHope post-quantum key exchange algorithm"),
     license="MIT",

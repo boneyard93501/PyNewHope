@@ -44,9 +44,9 @@ def sharedB(receivedMsg):
 def gen_a(seed):
     hashing_algorithm = hashlib.shake_128()
     hashing_algorithm.update(seed)
-    # 3000 bytes from SHAKE-128 function should be enough data to get
+    # 3072 bytes from SHAKE-128 function should be enough data to get
     # N (1024) coefficients smaller than 5*Q (5*Q = 5 * 12289 = 61445):
-    shake_output = hashing_algorithm.digest(3000)
+    shake_output = hashing_algorithm.digest(3072)
     output = []
     j = 0
     for i in range(0, params.N):

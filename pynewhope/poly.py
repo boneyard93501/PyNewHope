@@ -1,8 +1,7 @@
-import params
-import precomp
+from pynewhope import params, precomp
 import os
 
-QINV = 12287 # -inverse_mod(p,2^18)
+QINV = 12287  # -inverse_mod(p,2^18)
 RLOG = 18
 
 def LDDecode(xi0, xi1, xi2, xi3):

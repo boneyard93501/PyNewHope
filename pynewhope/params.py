@@ -1,4 +1,4 @@
-#Global parameters module
+# Global parameters module
 
 N = 1024
 K = 16

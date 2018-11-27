@@ -1,30 +1,32 @@
-import poly
-import params
-import os
-import hashlib
+from pynewhope import poly, params
+import os, hashlib, logging
 
-#global variables:
 a_key = []
 b_key = []
-s_hat = []
+s_hat = []  # private key
 
-#get_noise returns a random sampling from a normal distribution in the NTT domain.
+# keygen() is a server-side function that generates the private key s_hat and
+# returns a message in the form of a tuple. This message should be encoded using
+# JSON or another portable format and transmitted (over an open channel) to the
+# client.
+def keygen():
+    global s_hat
+    seed = os.urandom(params.NEWHOPE_SEEDBYTES)
+    a_coeffs = gen_a(seed)
+    s_coeffs = get_noise()
+    s_hat = s_coeffs
+    e_coeffs = get_noise()
+    r_coeffs = poly.pointwise(s_coeffs, a_coeffs)
+    p_coeffs = poly.add(e_coeffs, r_coeffs)
+    return (p_coeffs, seed)
+
+# get_noise returns a random sampling from a normal distribution in the NTT domain.
 def get_noise():
-    coefficients = poly.get_noise()
-    coefficeints = poly.poly_ntt(coefficients)
+    noise = poly.get_noise()
+    coefficients = poly.poly_ntt(noise)
     return coefficients
 
-# shareda is a server-side function that takes the (decoded) message received 
-# from the client as an argument. It generates the shared key a_key.
-def shareda(received):
-    global a_key, s_hat
-    (c_coeffs, b_coeffs) = received
-    v_coeffs = poly.pointwise(s_hat, b_coeffs)
-    v_coeffs = poly.invntt(v_coeffs)
-    a_key = poly.rec(v_coeffs, c_coeffs)
-    return
-
-# sharedb is a client-side function that takes the (decoded) message received
+# sharedb() is a client-side function that takes the (decoded) message received
 # from the server as an argument. It generates the shared key b_key and returns
 # a message in the form of a tuple. This message should be encoded using JSON or
 # another portable format and transmitted (over an open channel) to the server.
@@ -44,22 +46,7 @@ def sharedb(received):
     b_key = poly.rec(v_coeffs, c_coeffs)
     return (c_coeffs, b_coeffs)
 
-# keygen is a server-side function that generates the private key s_hat and 
-# returns a message in the form of a tuple. This message should be encoded using
-# JSON or another portable format and transmitted (over an open channel) to the
-# client.
-def keygen(verbose = False):
-    global s_hat
-    seed = os.urandom(params.NEWHOPE_SEEDBYTES)
-    a_coeffs = gen_a(seed)
-    s_coeffs = get_noise()
-    s_hat = s_coeffs
-    e_coeffs = get_noise()
-    r_coeffs = poly.pointwise(s_coeffs, a_coeffs)
-    p_coeffs = poly.add(e_coeffs, r_coeffs)
-    return (p_coeffs, seed)
-
-# gen_a returns a list of random coefficients.
+# gen_a() returns a list of random coefficients.
 def gen_a(seed):
     hashing_algorithm = hashlib.shake_128()
     hashing_algorithm.update(seed)
@@ -74,11 +61,21 @@ def gen_a(seed):
         while coefficient >= 5 * params.Q:
             coefficient = int.from_bytes(
                 shake_output[j * 2 : j * 2 + 2], byteorder = 'little')
-            print('j=' + str(j))
+            logging.debug('j=' + str(j))
             j += 1
             if j * 2 >= len(shake_output):
                 print('Error: Not enough data from SHAKE-128')
                 exit(1)
         output.append(coefficient)
-        print('chose ' + str(coefficient))
+        logging.debug('chose ' + str(coefficient))
     return output
+
+# shareda() is a server-side function that takes the (decoded) message received
+# from the client as an argument. It generates the shared key a_key.
+def shareda(received):
+    global a_key, s_hat
+    (c_coeffs, b_coeffs) = received
+    v_coeffs = poly.pointwise(s_hat, b_coeffs)
+    v_coeffs = poly.invntt(v_coeffs)
+    a_key = poly.rec(v_coeffs, c_coeffs)
+    return

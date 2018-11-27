@@ -59,6 +59,8 @@ Alice's shared key: [92, 122, 75, 33, 239, 164, 84, 241, 245, 204, 106, 197, 142
 Successful key exchange! Keys match.
 ```
 
+As it is visible from the output, the Alice's public message consists of a sequence of polynomial coefficients + a random seed (sequence of bytes). Bob's public message consists of two sequences of polynomial coefficients. The obtained from Alice and Bob shared key consists also of a sequence of polynomial coefficients.
+
 Instructions for cloning and testing PyNewHope on Mac/Linux:
 ------------------------------------------------------------
 

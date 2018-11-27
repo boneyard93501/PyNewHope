@@ -1,6 +1,8 @@
 # PyNewHope
 
-PyNewHope is an **experimental** (an unstable) Python implementation of the NewHope quantum secure cryptographic scheme proposed by Alkim, Ducas, Pöppelmann, and Schwabe: https://eprint.iacr.org/2015/1092
+PyNewHope is an **experimental** (an unstable) Python implementation of the **NewHope quantum-safe key-exchange** cryptographic scheme proposed by Alkim, Ducas, Pöppelmann, and Schwabe: https://eprint.iacr.org/2015/1092
+
+NewHope uses lattice-based cryptography, more precisely Ring-LWE (ring-learning-with-errors), which is designed to be quantum-resistant.
 
 This Python implementation is based on, and duplicates much of the functionality of, the reference C implementation available in the `liboqs` repository: https://github.com/open-quantum-safe/liboqs/tree/master/src/kex_rlwe_newhope
 

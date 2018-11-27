@@ -5,15 +5,15 @@ alicePrivKey, aliceMsg = newhope.keygen()
 print("Alice sends to Bob his message:", aliceMsg)
 
 # Step 2: Bob receives the msg from Alice and responds to Alice with a msg
-bobSharedKey, bobMsg = newhope.sharedb(aliceMsg)
-print("Bob's message:", bobMsg)
-print("Bob's key:", bobSharedKey)
+bobSharedKey, bobMsg = newhope.sharedB(aliceMsg)
+print("\nBob's message:", bobMsg)
+print("\nBob's shared key:", bobSharedKey)
 
 # Step 3: Alice receives the msg from Bob and generates her shared secret
-aliceSharedKey = newhope.shareda(bobMsg, alicePrivKey)
-print("Alice's key:", aliceSharedKey)
+aliceSharedKey = newhope.sharedA(bobMsg, alicePrivKey)
+print("\nAlice's shared key:", aliceSharedKey)
 
 if aliceSharedKey == bobSharedKey:
-    print("Successful key exchange! Keys match.")
+    print("\nSuccessful key exchange! Keys match.")
 else:
-    print("Error! Keys do not match.")
+    print("\nError! Keys do not match.")

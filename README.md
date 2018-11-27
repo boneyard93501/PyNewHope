@@ -27,11 +27,11 @@ from pynewhope import newhope
 
 # Step 1: Alice generates random keys and her public msg to Bob
 alicePrivKey, aliceMsg = newhope.keygen()
-print("Alice sends to Bob his message:", aliceMsg)
+print("Alice sends to Bob her public message:", aliceMsg)
 
 # Step 2: Bob receives the msg from Alice and responds to Alice with a msg
 bobSharedKey, bobMsg = newhope.sharedB(aliceMsg)
-print("\nBob's message:", bobMsg)
+print("\nBob sends to Alice his public message:", bobMsg)
 print("\nBob's shared key:", bobSharedKey)
 
 # Step 3: Alice receives the msg from Bob and generates her shared secret
@@ -48,9 +48,9 @@ Sample output:
 --------------
 
 ```
-Alice sends to Bob his message: ([1328, 8117, 8737, 6265, 8128, 12924, 3390, 12041, 4568, 7602, 2673, 7517, 2410, 1291, 2125, 2789, 11486, 1568, 12043, 9209, 6681, 9858, 5936, ..., 1021, 2113, 8424, 8501, 3442, 4238, 9503, 4625, 11250, 11609], b"\r\x8c\x89\xd0\xa0\x06gc8\xd2%:\xb0Z'\x9c\x8cs\xf9\xf8\xe7\x9f\x84T\xb73\x85w\xcc\xe5\xb5\xe1")
+Alice sends to Bob her public message: ([1328, 8117, 8737, 6265, 8128, 12924, 3390, 12041, 4568, 7602, 2673, 7517, 2410, 1291, 2125, 2789, 11486, 1568, 12043, 9209, 6681, 9858, 5936, ..., 1021, 2113, 8424, 8501, 3442, 4238, 9503, 4625, 11250, 11609], b"\r\x8c\x89\xd0\xa0\x06gc8\xd2%:\xb0Z'\x9c\x8cs\xf9\xf8\xe7\x9f\x84T\xb73\x85w\xcc\xe5\xb5\xe1")
 
-Bob's message: ([2, 0, 3, 1, 0, 3, 0, 3, 0, 1, 0, 1, 0, 0, 1, 1, 1, 3, 0, 2, 0, 2, 2, 1, 1, 3, 2, 3, 3, 3, 3, 1, 3, 1, 0, 1, 2, 0, 1, 1, 3, 3, 2, 1, 1, 2, 0, 3, 3, 2, 1, 1, 1, 0, 2, 3, 1, ..., 3, 3, 2, 2, 0, 1], [9328, 8906, 2517, 6830, 4517, 2142, 8296, 938, 3333, 10585, 12196, 11496, 3726, 12462, 10271, 4871, 4499, 2899, 11284, 8994, 4732, 7381, 2950, 8675, 4349, 2534, 2161, ..., 6591, 6369, 8664, 5182, 10856, 4314, 7919, 3651, 2352, 4103, 6035, 3990])
+Bob sends to Alice his public message: ([2, 0, 3, 1, 0, 3, 0, 3, 0, 1, 0, 1, 0, 0, 1, 1, 1, 3, 0, 2, 0, 2, 2, 1, 1, 3, 2, 3, 3, 3, 3, 1, 3, 1, 0, 1, 2, 0, 1, 1, 3, 3, 2, 1, 1, 2, 0, 3, 3, 2, 1, 1, 1, 0, 2, 3, 1, ..., 3, 3, 2, 2, 0, 1], [9328, 8906, 2517, 6830, 4517, 2142, 8296, 938, 3333, 10585, 12196, 11496, 3726, 12462, 10271, 4871, 4499, 2899, 11284, 8994, 4732, 7381, 2950, 8675, 4349, 2534, 2161, ..., 6591, 6369, 8664, 5182, 10856, 4314, 7919, 3651, 2352, 4103, 6035, 3990])
 
 Bob's shared key: [92, 122, 75, 33, 239, 164, 84, 241, 245, 204, 106, 197, 142, 230, 28, 189, 54, 112, 190, 124, 176, 66, 129, 69, 108, 66, 110, 42, 115, 70, 17, 107]
 

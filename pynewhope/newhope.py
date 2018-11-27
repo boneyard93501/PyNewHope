@@ -1,24 +1,18 @@
 from pynewhope import poly, params
 import os, hashlib, logging
 
-a_key = []
-b_key = []
-s_hat = []  # private key
-
 # keygen() is a server-side function that generates the private key s_hat and
 # returns a message in the form of a tuple. This message should be encoded using
 # JSON or another portable format and transmitted (over an open channel) to the
 # client.
 def keygen():
-    global s_hat
     seed = os.urandom(params.NEWHOPE_SEEDBYTES)
     a_coeffs = gen_a(seed)
     s_coeffs = get_noise()
-    s_hat = s_coeffs
     e_coeffs = get_noise()
     r_coeffs = poly.pointwise(s_coeffs, a_coeffs)
     p_coeffs = poly.add(e_coeffs, r_coeffs)
-    return (p_coeffs, seed)
+    return s_coeffs, (p_coeffs, seed)
 
 # get_noise returns a random sampling from a normal distribution in the NTT domain.
 def get_noise():
@@ -26,12 +20,11 @@ def get_noise():
     coefficients = poly.poly_ntt(noise)
     return coefficients
 
-# sharedb() is a client-side function that takes the (decoded) message received
-# from the server as an argument. It generates the shared key b_key and returns
-# a message in the form of a tuple. This message should be encoded using JSON or
-# another portable format and transmitted (over an open channel) to the server.
+# sharedb() is a client-side function that takes the (decoded) message received from
+# the server as an argument. It generates the shared key b_key and returns it, along
+# with a message in the form of a tuple. This message should be encoded using JSON
+# or another portable format and transmitted (over an open channel) to the server.
 def sharedb(received):
-    global b_key
     (pka, seed) = received
     a_coeffs = gen_a(seed)
     s_coeffs = get_noise()
@@ -44,7 +37,7 @@ def sharedb(received):
     v_coeffs = poly.add(v_coeffs, e_prime)
     c_coeffs = poly.helprec(v_coeffs)
     b_key = poly.rec(v_coeffs, c_coeffs)
-    return (c_coeffs, b_coeffs)
+    return b_key, (c_coeffs, b_coeffs)
 
 # gen_a() returns a list of random coefficients.
 def gen_a(seed):
@@ -71,11 +64,10 @@ def gen_a(seed):
     return output
 
 # shareda() is a server-side function that takes the (decoded) message received
-# from the client as an argument. It generates the shared key a_key.
-def shareda(received):
-    global a_key, s_hat
-    (c_coeffs, b_coeffs) = received
-    v_coeffs = poly.pointwise(s_hat, b_coeffs)
+# from the client as an argument. It generates and returns the shared key a_key.
+def shareda(receivedMsg, privKey):
+    (c_coeffs, b_coeffs) = receivedMsg
+    v_coeffs = poly.pointwise(privKey, b_coeffs)
     v_coeffs = poly.invntt(v_coeffs)
     a_key = poly.rec(v_coeffs, c_coeffs)
-    return
+    return a_key

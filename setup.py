@@ -19,5 +19,6 @@ setup(
     license="MIT",
     keywords=["NewHope", "PQC", "post-quantum-cryptography", "key-exchange", "cryptography"],
     url="https://github.com/nakov/PyNewHope",
+    download_url = "https://github.com/nakov/PyNewHope",
     long_description=read_("README.md")
 )

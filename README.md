@@ -18,6 +18,16 @@ Whether you're using Python on Linux, Mac, or Windows, it's important that Pytho
 
 Installing Git : https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
+Instructions for installing from PyPI:
+--------------------------------------
+
+This library is available in the PyPI repository (packaged by [Svetlin Nakov](https://github.com/nakov)). To install it, use this:
+
+```
+pip install pynewhope
+```
+
+
 Instructions for cloning and testing PyNewHope on Mac/Linux:
 ------------------------------------------------------------
 

@@ -1,10 +1,12 @@
 # PyNewHope
 
-PyNewHope is a Python implementation of the NewHope quantum secure cryptographic scheme proposed by Alkim, Ducas, Pöppelmann, and Schwabe: https://eprint.iacr.org/2015/1092
+PyNewHope is an **experimental** (an unstable) Python implementation of the NewHope quantum secure cryptographic scheme proposed by Alkim, Ducas, Pöppelmann, and Schwabe: https://eprint.iacr.org/2015/1092
 
 This Python implementation is based on, and duplicates much of the functionality of, the reference C implementation available in the `liboqs` repository: https://github.com/open-quantum-safe/liboqs/tree/master/src/kex_rlwe_newhope
 
 This implementation is designed to be used natively in Python applications, without the need for wrappers or other means of incorporating the C implementation into production software. A testing harness is available in `test_newhope.py`, and documentation is provided as code comments. The code should be readable and usable.
+
+**For educational purposes only!** Don't use this code in real-world projects. Sometimes it crashes and exits unexpectedly.
 
 This work was submitted as a master's capstone advanced lab to the computer science department at the Courant Institute of Mathematical Sciences at New York University. It should be considered open source, free to use and modify.
 
@@ -66,7 +68,7 @@ Instructions for cloning and testing PyNewHope on Mac/Linux:
 
 Once you have Python 3.6 and Git installed, open a terminal and enter the following commands:
 ```
-git clone https://github.com/scottwn/PyNewHope
+git clone https://github.com/nakov/PyNewHope
 
 cd PyNewHope
 
@@ -78,7 +80,7 @@ Instructions for cloning and testing PyNewHope on Windows:
 
 First make sure you have Python 3.6 installed.
 
-Download PyNewHope as a zip file from https://github.com/scottwn/PyNewHope using the "Clone or download" button.
+Download PyNewHope as a zip file from https://github.com/nakov/PyNewHope using the "Clone or download" button.
 
 Unzip PyNewHope into a directory in your Python PATH.
 
@@ -88,3 +90,9 @@ import test_newhope
 
 test_newhope
 ```
+
+Contributors:
+-------------
+ - Originally created by Scott Wyman Neagle (2017) - https://github.com/scottwn/
+ - Based on the Open Quantum Safe project (2016) - https://github.com/open-quantum-safe/liboqs/
+ - Modified by Svetlin Nakov and uploaded to PyPI (2018) - https://github.com/nakov
